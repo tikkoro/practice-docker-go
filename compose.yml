@@ -1,0 +1,41 @@
+services:
+    backend:
+        container_name: go-practice
+        build:
+            dockerfile: ./app/Dockerfile
+            context: .
+        stdin_open: true
+        tty: true
+        depends_on:
+            - db
+        volumes:
+            - type: bind
+              source: ./app/src
+              target: /go/app/src
+
+    db:
+        container_name: db-practice
+        build:
+            dockerfile: ./db/Dockerfile
+            context: .
+        stdin_open: true
+        ports:
+            - "33060:3306"
+        tty: true
+        platform: linux/x86_64
+        volumes:
+            - type: volume
+              source: maria-volume
+              target: /var/lib/mysql
+            - type: bind
+              source: ./db/init.sql
+              target: /docker-entrypoint-initdb.d/init.sql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASS}
+            TZ: ${TZ}
+volumes:
+    maria-volume:
+        name: mariadb-volume
