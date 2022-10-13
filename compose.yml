@@ -2,7 +2,7 @@ services:
     backend:
         container_name: go-practice
         build:
-            dockerfile: ./app/Dockerfile
+            dockerfile: ./backend/Dockerfile
             context: .
         stdin_open: true
         tty: true
@@ -10,8 +10,8 @@ services:
             - db
         volumes:
             - type: bind
-              source: ./app/src
-              target: /go/app/src
+              source: ./backend/src
+              target: /go/backend/src
 
     db:
         container_name: db-practice
