@@ -11,3 +11,5 @@ RUN go install golang.org/x/tools/gopls@latest
 RUN go install github.com/ramya-rao-a/go-outline@latest
 RUN go install github.com/cosmtrek/air@latest
 WORKDIR ${ROOTPATH}
+
+CMD ["air", "-c", ".air.toml"]
