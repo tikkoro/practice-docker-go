@@ -4,14 +4,20 @@ services:
         build:
             dockerfile: ./backend/Dockerfile
             context: .
+            args:
+                - USER=${DB_USER}
+                - PASSWORD=${DB_PASS}
+                - NAME=${DB_NAME}
         stdin_open: true
+        ports:
+            - "8080:8080"
         tty: true
         depends_on:
             - db
         volumes:
             - type: bind
               source: ./backend/src
-              target: /go/backend/src
+              target: /go/app/src
 
     db:
         container_name: db-practice
@@ -36,6 +42,7 @@ services:
             MYSQL_USER: ${DB_USER}
             MYSQL_PASSWORD: ${DB_PASS}
             TZ: ${TZ}
+
 volumes:
     maria-volume:
         name: mariadb-volume
