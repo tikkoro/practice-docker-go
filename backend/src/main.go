@@ -20,7 +20,7 @@ type Users []User
 
 func connectDB() {
 	db, err := sql.Open("mysql",
-		fmt.Sprintf("%s:%s@(db)/%s", os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_NAME")))
+		fmt.Sprintf("%s:%s@(db)/%s", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_DATABASE")))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +43,7 @@ func responseTest(w http.ResponseWriter, r *http.Request) {
 			users,
 			User{Id: i, Name: title})
 	}
-	fmt.Println("call h2")
+	fmt.Println("call responseTest")
 	json.NewEncoder(w).Encode(users)
 }
 

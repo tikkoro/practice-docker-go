@@ -4,16 +4,14 @@ services:
         build:
             dockerfile: ./backend/Dockerfile
             context: .
-            args:
-                - USER=${DB_USER}
-                - PASSWORD=${DB_PASS}
-                - NAME=${DB_NAME}
         stdin_open: true
         ports:
             - "8080:8080"
         tty: true
         depends_on:
             - db
+        env_file:
+            - .env
         volumes:
             - type: bind
               source: ./backend/src
@@ -36,12 +34,8 @@ services:
             - type: bind
               source: ./db/init.sql
               target: /docker-entrypoint-initdb.d/init.sql
-        environment:
-            MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
-            MYSQL_DATABASE: ${DB_NAME}
-            MYSQL_USER: ${DB_USER}
-            MYSQL_PASSWORD: ${DB_PASS}
-            TZ: ${TZ}
+        env_file:
+            - .env
 
 volumes:
     maria-volume:
